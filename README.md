@@ -7,6 +7,8 @@
 
 ![Role](https://img.shields.io/badge/Role-Academic%20Researcher%20%7C%20Forensic%20Student%20%7C%20Ethical%20Hacking%20Learner-purple?style=for-the-badge&logo=shield)
 
+![Stage](https://img.shields.io/badge/Project%20Stage-Research%20%26%20Development-green?style=for-the-badge&logo=progress)
+
 ---
 
  ![Header](./project-architecture-3d.png)
