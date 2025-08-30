@@ -2,6 +2,9 @@
 
 ## One Command. All Tools. Unified GUI....
 
+ ![Header](./project-architecture-3d.png)
+ 
+---
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)  
 ![License](https://img.shields.io/badge/License-MIT-green.svg)  
 ![GUI](https://img.shields.io/badge/GUI-Tkinter%20%7C%20PyQt-orange.svg)  
