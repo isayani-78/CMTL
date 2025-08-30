@@ -67,6 +67,22 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 ✅ Ethical & educational use only  
 
 ---
+##External Tools Integrated:
+- Network Scanners: Nmap, Zenmap, Angry IP Scanner, Advanced IP Scanner
+- Vulnerability Scanners: OpenVAS, Nessus, QualysGuard
+- Exploitation Tools: Metasploit, Burp Suite, Acunetix
+- Forensics & Monitoring: Wireshark, Maltego, NetworkMiner, Kismet, Ettercap
 
+---
+## 🔒 Disclaimer
+
+⚠️ This project is for educational and ethical purposes only.
+The author is not responsible for any misuse of this tool.
+
+---
+## ✅ Installation & Usage
+Project Sesh hole Available hoye jabe 👍🏻
+
+---
 ## 📂 Project Structure  
 **Pore Debo**
