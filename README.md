@@ -99,11 +99,6 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 ## 🎯 Expected Outcomes  
 **Jani na akhono** 
 
-## 🔒 Disclaimer
-
-⚠️ This project is for educational and ethical purposes only.
-The author is not responsible for any misuse of this tool.
-
 ---
 ## ✅ Installation & Usage
 Project Sesh hole Available hoye jabe 👍🏻
@@ -116,3 +111,11 @@ Project Sesh hole Available hoye jabe 👍🏻
 
 ## 📂 Project Structure  
 **Pore Debo**
+
+---
+
+## 🔒 Disclaimer
+
+⚠️ This project is for educational and ethical purposes only.
+The author is not responsible for any misuse of this tool.
+
