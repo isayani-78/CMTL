@@ -1,5 +1,4 @@
-# CMTL -> CyberSec Multi-Tool Launcher
-# 🚀 Cyber Security Multi-Tool Launcher  
+# 🚀CMTL ->  Cyber Security Multi-Tool Launcher  
 
 ![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)  
 ![License](https://img.shields.io/badge/License-MIT-green.svg)  
