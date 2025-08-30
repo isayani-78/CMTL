@@ -14,7 +14,7 @@
 
 ## 🔥 About  
 **Cyber Security Multi-Tool Launcher** is a unified GUI-based platform that integrates powerful **network scanning, vulnerability assessment, penetration testing, and forensic tools** into a single tool.  
-Instead of manually running multiple tools, users can launch and manage them through **one centralized interface** with just a click.  
+Instead of manually running multiple tools, users can launch and manage them through **one centralized interface** with **"Just a Click"**.  
 
 This project is designed for **cybersecurity students, penetration testers, and researchers** to save time and enhance workflow efficiency.  
 
