@@ -2,6 +2,13 @@
 
 ## One Command. All Tools. Unified GUI....
 
+---
+![Creator](https://img.shields.io/badge/Creator-Sayani%20Maity-blue?style=for-the-badge&logo=github)
+
+![Role](https://img.shields.io/badge/Role-Academic%20Researcher%20%7C%20Forensic%20Student%20%7C%20Ethical%20Hacking%20Learner-purple?style=for-the-badge&logo=shield)
+
+---
+
  ![Header](./project-architecture-3d.png)
  
 ---
@@ -25,6 +32,19 @@ Cybersecurity professionals and students often face difficulty switching between
 Each tool requires separate installation, command usage, and reporting, which makes workflow slow and inefficient.  
 
 This project solves that by providing a **single GUI launcher** to run multiple tools and view outputs in one place.  
+
+---
+
+![Status](https://img.shields.io/badge/Stage-Portfolio%20Project-blue?style=for-the-badge&logo=github)
+
+![Type](https://img.shields.io/badge/Role-Cybersecurity%20Toolkit-purple?style=for-the-badge&logo=linux)
+
+![Focus](https://img.shields.io/badge/Focus-Digital%20Forensics%20%26%20Pentesting-red?style=for-the-badge&logo=hackaday)
+
+![Learning](https://img.shields.io/badge/Learning-Academic%20Research-green?style=for-the-badge&logo=bookstack)
+
+![Made With](https://img.shields.io/badge/Made%20With-Python-yellow?style=for-the-badge&logo=python)
+
 
 ---
 
@@ -57,11 +77,6 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 
 ---
 
-## 🎯 Expected Outcomes  
-**Jani na akhono** 
-
----
-
 ## 🌟 Features  
 ✅ GUI interface with multiple tools  
 ✅ Network scanning (Nmap, Angry IP Scanner, Advanced IP Scanner, LanSpy)  
@@ -79,6 +94,9 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 - Forensics & Monitoring: Wireshark, Maltego, NetworkMiner, Kismet, Ettercap
 
 ---
+## 🎯 Expected Outcomes  
+**Jani na akhono** 
+
 ## 🔒 Disclaimer
 
 ⚠️ This project is for educational and ethical purposes only.
@@ -89,5 +107,10 @@ The author is not responsible for any misuse of this tool.
 Project Sesh hole Available hoye jabe 👍🏻
 
 ---
+## 🎯 Expected Outcomes  
+**Jani na akhono** 
+
+---
+
 ## 📂 Project Structure  
 **Pore Debo**
