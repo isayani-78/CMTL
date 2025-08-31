@@ -104,10 +104,6 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 Project Sesh hole Available hoye jabe 👍🏻
 
 ---
-## 🎯 Expected Outcomes  
-**Jani na akhono** 
-
----
 
 ## 📂 Project Structure  
 **Pore Debo**
