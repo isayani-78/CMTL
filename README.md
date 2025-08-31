@@ -113,5 +113,6 @@ Project Sesh hole Available hoye jabe 👍🏻
 ## 🔒 Disclaimer
 
 ⚠️ This project is for educational and ethical purposes only.
+
 The author is not responsible for any misuse of this tool.
 
