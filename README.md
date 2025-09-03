@@ -3,14 +3,14 @@
 ## One Command. All Tools. Unified GUI....
 
 ---
-![Creator](https://img.shields.io/badge/Creator-Sayani%20Maity-blue?style=for-the-badge&logo=github)
+![Creator](https://img.shields.io/badge/Creator-Sayani%20Maity-black?style=for-the-badge&logo=github)
 
 ![Role](https://img.shields.io/badge/Role-Academic%20Researcher%20%7C%20Forensic%20Student%20%7C%20Ethical%20Hacking%20Learner-purple?style=for-the-badge&logo=shield)
 
-![Stage](https://img.shields.io/badge/Project%20Stage-Research%20%26%20Development-green?style=for-the-badge&logo=progress)
+![Stage](https://img.shields.io/badge/Project%20Stage-Research%20%26%20Development-blue?style=for-the-badge&logo=progress)
 
 ## Mentors:-
-![Mentor](https://img.shields.io/badge/Mentor-Mrs.Sukriti%20Santra-blue?style=for-the-badge&logo=github)
+![Mentor](https://img.shields.io/badge/Mentor-Mrs.Sukriti%20Santra-red?style=for-the-badge&logo=github)
 
 ![ExternalMentor](https://img.shields.io/badge/External%20Mentor-Mr.Saumitra%20Biswas-purple?style=for-the-badge&logo=github)
 
@@ -47,11 +47,11 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 
 ![Type](https://img.shields.io/badge/Role-Cybersecurity%20Toolkit-purple?style=for-the-badge&logo=linux)
 
-![Focus](https://img.shields.io/badge/Focus-Digital%20Forensics%20%26%20Pentesting-red?style=for-the-badge&logo=hackaday)
+![Focus](https://img.shields.io/badge/Focus-Digital%20Forensics%20%26%20Pentesting-white?style=for-the-badge&logo=hackaday)
 
-![Learning](https://img.shields.io/badge/Learning-Academic%20Research-green?style=for-the-badge&logo=bookstack)
+![Learning](https://img.shields.io/badge/Learning-Academic%20Research-red?style=for-the-badge&logo=bookstack)
 
-![Made With](https://img.shields.io/badge/Made%20With-Python-yellow?style=for-the-badge&logo=python)
+![Made With](https://img.shields.io/badge/Made%20With-Python-pink?style=for-the-badge&logo=python)
 
 
 ---
