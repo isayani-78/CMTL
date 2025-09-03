@@ -1,1 +1,37 @@
+# 🔧 Executable Tools in CMTL Project
 
+This project integrates and allows execution of multiple cybersecurity tools.  
+Below is the categorized list of tools supported:
+
+=========================================
+1️⃣ Network Scanners
+-----------------------------------------
+- Nmap
+- Zenmap
+- Angry IP Scanner
+- LanSpy
+
+=========================================
+2️⃣ Vulnerability Assessment Tools
+-----------------------------------------
+- Nessus
+- OpenVAS (Greenbone)
+- QualysGuard
+- Acunetix
+
+=========================================
+3️⃣ Exploitation & Penetration Testing Tools
+-----------------------------------------
+- Metasploit Framework
+- Burp Suite
+- Sparta
+- Faraday
+
+=========================================
+4️⃣ Forensics & Monitoring Tools
+-----------------------------------------
+- Wireshark
+- Maltego
+- NetworkMiner
+- Kismet
+- Ettercap
