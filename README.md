@@ -189,7 +189,6 @@ Windows: choco
 ```bash
 cybersec-multi-tool-launcher/
 │── tool_launcher.py          # Main launcher (CLI + GUI)
-│── requirements.txt          # Python dependencies
 │── config.json               # Configurable tool paths and targets
 │── README.md                 # Documentation
 │── tools/                    # Internal mini tools
