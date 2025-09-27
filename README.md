@@ -158,6 +158,7 @@ Example:-*
 }
 ```
 **5️⃣ Run the Tool**
+
 *👉 CLI Mode:-*
 ```
 python tool_launcher.py --cli
@@ -178,6 +179,7 @@ output/results.json → Combined summary
 output/logs/ → Individual tool logs
 ```
 **⚡ Tip:-**
+
 *If a required external tool is missing, CMTL will prompt you to install it.*
 *It supports auto-install for:-*
 ```
