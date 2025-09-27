@@ -28,10 +28,9 @@
 ---
 
 ## 🔥 About  
-**Cyber Security Multi-Tool Launcher** is a unified GUI-based platform that integrates powerful **network scanning, vulnerability assessment, penetration testing, and forensic tools** into a single tool.  
-Instead of manually running multiple tools, users can launch and manage them through **one centralized interface** with **"Just a Click"**.  
+**CyberSec Multi Tool Launcher (CMTL)** is a unified **Python-based toolkit** that allows cybersecurity students, researchers, and penetration testers to **launch, manage, and capture results** from multiple security tools in one place & to save time and enhance workflow efficiency.  
 
-This project is designed for **cybersecurity students, penetration testers, and researchers** to save time and enhance workflow efficiency.  
+It integrates both **external tools** (like Nmap, Metasploit, Burp Suite, Wireshark, OWASP ZAP, Magnet AXIOM, etc.) and **custom-built mini-tools** (like port scanner, ping sweep, banner grabber, packet sniffer, subdomain finder) into a single **CLI + GUI** launcher.  
 
 ---
 
@@ -57,63 +56,153 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 ---
 
 ## 🎯 Objectives  
-- To integrate multiple cybersecurity tools in a **single GUI launcher**.  
-- To simplify **network scanning, vulnerability analysis, and penetration testing**.  
-- To provide a centralized **reporting mechanism**.  
-- To improve productivity for **cybersecurity students, analysts, and professionals**.  
+- Provide a **single launcher** for commonly used cybersecurity tools.  
+- Reduce complexity by combining **network scanning, vulnerability assessment, pentesting, and forensic tools**.  
+- Include **custom Python scanners** to demonstrate internal capabilities.  
+- Allow **logging & reporting** in JSON + log files.  
+- Support **cross-platform (Linux + Windows)** operation.   
 
 ---
 
 ## ⚙️ Functional Requirements  
-1. The system should provide a **GUI interface** for selecting tools.  
-2. The system should allow **network scanning** using Nmap, Angry IP Scanner, Advanced IP Scanner, etc.  
-3. The system should allow **vulnerability assessment** using Nessus, OpenVAS, QualysGuard, etc.  
-4. The system should support **penetration testing** using Metasploit, Burp Suite, Acunetix, etc.  
-5. The system should allow **monitoring & forensics** using Wireshark, Maltego, NetworkMiner, etc.  
-6. The system should support **launching tools with a single command**.  
-7. The system should support **report generation** (CSV, PDF, JSON).  
+1. Provide **GUI (Tkinter)** + **CLI menu** for tool selection.  
+2. Allow **run-and-capture** for CLI tools.  
+3. Support **launch-only mode** for GUI-based external tools.  
+4. Provide **"Run All" option** sequentially.  
+5. Store outputs in **logs/** and summary in **results.json**.  
+6. Use a **config.json** file to manage tool paths, targets, and preferences.
 
 ---
 
 ## ⚡ Non-Functional Requirements  
-1. **Usability**: Easy-to-use GUI interface.  
-2. **Performance**: Must launch tools quickly and handle concurrent scans efficiently.  
-3. **Scalability**: Should support adding new tools in the future.  
-4. **Portability**: Should run on major OS platforms (Windows, Linux, Mac).  
-5. **Security**: Must ensure ethical use and prevent misuse.  
-6. **Reliability**: System should be stable without crashing while multiple tools run.  
-
+- **Usability:** User-friendly CLI & GUI interface.  
+- **Performance:** Must run tools quickly and handle sequential scans.  
+- **Scalability:** Easy to add new tools via `config.json`.  
+- **Portability:** Works on both Linux & Windows.  
+- **Security:** Strictly for **ethical and academic research only**.  
+- **Reliability:** Must not crash while multiple tools run.  
 ---
 
 ## 🌟 Features  
-✅ GUI interface with multiple tools  
-✅ Network scanning (Nmap, Angry IP Scanner, Advanced IP Scanner, LanSpy)  
-✅ Vulnerability assessment (OpenVAS, Nessus, QualysGuard)  
-✅ Penetration testing (Metasploit, Burp Suite, Acunetix, Sparta)  
-✅ Monitoring & Forensics (Wireshark, Maltego, NetworkMiner, Kismet, Ettercap)  
-✅ Centralized reporting system  
-✅ Ethical & educational use only  
+✅ CLI + GUI support  
+✅ One-click tool launcher  
+✅ "Run All" option (sequential)  
+✅ Auto-install suggestions for missing tools (`apt`, `brew`, `choco`)  
+✅ JSON reporting + log files  
+✅ Cross-platform support  
+✅ Mini-tools (Python-coded internal scanners)  
+
 
 ---
 ## External Tools Integrated:
-- Network Scanners: Nmap, Zenmap, Angry IP Scanner, Advanced IP Scanner
-- Vulnerability Scanners: OpenVAS, Nessus, QualysGuard
-- Exploitation Tools: Metasploit, Burp Suite, Acunetix
-- Forensics & Monitoring: Wireshark, Maltego, NetworkMiner, Kismet, Ettercap
+- **Network Scanners:** Nmap, Zenmap, Angry IP Scanner, Advanced IP Scanner, LanSpy  
+- **Vulnerability Assessment:** OpenVAS, Nessus, QualysGuard, Acunetix  
+- **Penetration Testing:** Metasploit, Burp Suite, Sparta, Faraday  
+- **Forensics & Monitoring:** Wireshark, Maltego, NetworkMiner, Kismet, Ettercap  
+- **Other Security Tools:** OWASP ZAP, Magnet AXIOM  
 
 ---
 ## 🎯 Expected Outcomes  
-**Jani na akhono** 
+- **Centralized tool launcher** for multiple cybersecurity tools.  
+- **Hands-on learning** for students in digital forensics and penetration testing.  
+- **Automation of common tasks** like port scanning, subdomain enumeration, and packet sniffing.  
+- **Cross-platform toolkit** usable in academic, lab, and training environments.  
 
 ---
+## 📦 requirements.txt
+```
+requests
+scapy
+python-nmap
+colorama
+```
+---
+
 ## ✅ Installation & Usage
-Project Sesh hole Available hoye jabe 👍🏻
 
+**1️⃣ Clone the Repository**
+```bash
+git clone https://github.com/isayani-78/CMTL.git
+cd CMTL
+```
+**2️⃣ Create Virtual Environment (Recommended)**
+*Linux/Mac:-*
+```
+python3 -m venv venv
+source venv/bin/activate
+```
+*Windows (PowerShell):-*
+```
+python -m venv venv
+venv\Scripts\activate
+```
+**3️⃣ Install Dependencies**
+```
+pip install -r requirements.txt
+```
+**4️⃣ Configure Tool Paths (Optional but Recommended)**
+
+*Open config.json*
+*Set paths for external tools (like Nmap, Wireshark, Burp Suite, etc.) if not in system PATH.*
+
+Example:-* 
+```
+{
+  "default_target": "192.168.1.1",
+  "tools": {
+    "nmap": "nmap",
+    "wireshark": "wireshark",
+    "metasploit": "msfconsole"
+  }
+}
+```
+**5️⃣ Run the Tool**
+*👉 CLI Mode:-*
+```
+python tool_launcher.py --cli
+```
+*👉 GUI Mode (Tkinter):-*
+```
+python tool_launcher.py --gui
+```
+*👉 Run All Tools Sequentially:-*
+```
+python tool_launcher.py --run-all
+```
+**6️⃣ Output & Logs**
+
+*Results are stored in:-*
+```
+output/results.json → Combined summary
+output/logs/ → Individual tool logs
+```
+**⚡ Tip:-**
+*If a required external tool is missing, CMTL will prompt you to install it.*
+*It supports auto-install for:-*
+```
+Linux: apt-get
+Mac: brew
+Windows: choco
+```
 ---
+## 📂 Project Structure
+```bash
+cybersec-multi-tool-launcher/
+│── tool_launcher.py          # Main launcher (CLI + GUI)
+│── requirements.txt          # Python dependencies
+│── config.json               # Configurable tool paths and targets
+│── README.md                 # Documentation
+│── tools/                    # Internal mini tools
+│    ├── port_scanner.py
+│    ├── ping_sweeper.py
+│    ├── banner_grabber.py
+│    ├── packet_sniffer.py
+│    └── subdomain_finder.py
+│── output/
+│    ├── logs/                # Individual tool logs
+│    └── results.json         # Combined scan results
 
-## 📂 Project Structure  
-**Pore Debo**
-
+```
 ---
 
 ## 🔒 Disclaimer
