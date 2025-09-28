@@ -1,0 +1,39 @@
+{
+    "default_target": "192.168.1.1",
+    "log_directory": "output/logs",
+    "json_log_file": "output/results.json",
+    "auto_install": true,
+    "tools": {
+        "cli_tools": [
+            "nmap",
+            "openvas",
+            "nessus",
+            "qualysguard",
+            "acunetix",
+            "metasploit",
+            "sparta",
+            "faraday"
+        ],
+        "gui_tools": [
+            "zenmap",
+            "angryip",
+            "advanced_ip_scanner",
+            "lanspy",
+            "burpsuite",
+            "wireshark",
+            "maltego",
+            "networkminer",
+            "kismet",
+            "ettercap",
+            "zap",
+            "magnetaxiom"
+        ],
+        "mini_tools": [
+            "port_scanner",
+            "ping_sweep",
+            "banner_grabber",
+            "packet_sniffer",
+            "subdomain_finder"
+        ]
+    }
+}
