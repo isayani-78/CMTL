@@ -180,6 +180,16 @@ Linux: apt-get
 Mac: brew
 Windows: choco
 ```
+## Internal Tools 
+
+*Run individually, e.g:-*
+```
+python tools/port_scanner.py 192.168.1.1
+python tools/ping_sweeper.py 192.168.1 1 50
+python tools/banner_grabber.py example.com 80
+sudo python tools/packet_sniffer.py --count 20
+python tools/subdomain_finder.py example.com
+```
 ---
 ## 📂 Project Structure
 ```bash
