@@ -113,33 +113,46 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 
 ## ✅ Installation & Usage
 
-**1️⃣ Clone the Repository**
+**Clone the Repository**
 ```bash
 git clone https://github.com/isayani-78/CMTL.git
 cd CMTL
-```
-**2️⃣ Create Virtual Environment (Recommended)**
+python tool_launcher.py
 
-*Linux/Mac:-*
 ```
-python3 -m venv venv
-source venv/bin/activate
+# Default launcher (choose mode inside menu)
 ```
-*Windows (PowerShell):-*
+python tool_launcher.py
 ```
+
+# CLI Mode
+```
+python tool_launcher.py --cli
+```
+
+# GUI Mode (Tkinter)
+```
+python tool_launcher.py --gui
+```
+
+# Run all tools sequentially
+```
+python tool_launcher.py --run-all
+```
+# 🔹Advanced Setup (Optional)
+*For users who prefer virtual environments + requirements:-*
+```
+# Create virtual environment
 python -m venv venv
-venv\Scripts\activate
-```
-**3️⃣ Install Dependencies**
-```
+source venv/bin/activate   # Linux/Mac
+venv\Scripts\activate      # Windows
+
+# Install dependencies
 pip install -r requirements.txt
 ```
-**4️⃣ Configure Tool Paths (Optional but Recommended)**
+# 🔹 Configuring Tool Paths
 
-*Open config.json*
-*Set paths for external tools (like Nmap, Wireshark, Burp Suite, etc.) if not in system PATH.*
-
-Example:-* 
+*If tools are not in your system PATH, edit config.json:-*
 ```
 {
   "default_target": "192.168.1.1",
@@ -150,27 +163,25 @@ Example:-*
   }
 }
 ```
-**5️⃣ Run the Tool**
+# 🔹 Outputs & Logs
 
-*👉 CLI Mode:-*
-```
-python tool_launcher.py --cli
-```
-*👉 GUI Mode (Tkinter):-*
-```
-python tool_launcher.py --gui
-```
-*👉 Run All Tools Sequentially:-*
-```
-python tool_launcher.py --run-all
-```
-**6️⃣ Output & Logs**
+*Combined summary → output/results.json*
 
-*Results are stored in:-*
-```
-output/results.json → Combined summary
-output/logs/ → Individual tool logs
-```
+*Individual logs → output/logs/*
+
+---
+# ❓ Troubleshooting:- 
+
+*- Tool not found? → Make sure it’s installed and in PATH.*
+
+*- Permission denied? → Use sudo (Linux/Mac) or run as Administrator (Windows).*
+
+*- GUI not opening? → Ensure Python Tkinter is installed (built-in for most systems).*
+
+*- Still stuck? → Delete output/ folder and rerun.*
+
+
+---
 **⚡ Tip:-**
 
 *If a required external tool is missing, CMTL will prompt you to install it.*
@@ -216,7 +227,7 @@ cybersec-multi-tool-launcher/
 
 ## 🔒 Disclaimer
 
-⚠️ This project is for educational and ethical purposes only.
+*⚠️ Use this tool only on systems/networks you own or have explicit permission to test.*
 
-The author is not responsible for any misuse of this tool.
+*Misuse may be illegal. The author is not responsible for misuse.*
 
