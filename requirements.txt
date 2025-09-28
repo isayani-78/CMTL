@@ -1,16 +1,9 @@
-# GUI dependencies
-tk
 pyqt5
-
-# Networking & Scanning
 scapy
 requests
 python-nmap
 dnspython
-
-# CLI Output & Logging
 colorama
 rich
-
-# Data Handling (Optional but useful)
 pandas
+pyinstaller    # optional, only if you need an exe build
