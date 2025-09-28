@@ -6,4 +6,4 @@ dnspython
 colorama
 rich
 pandas
-pyinstaller    # optional, only if you need an exe build
+pyinstaller
