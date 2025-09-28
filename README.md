@@ -182,6 +182,9 @@ Windows: choco
 ```
 ## Internal Tools 
 
+*⚠️ Ethics reminder:-*
+*Only run these tools on hosts/networks you own or have explicit permission to test.*
+
 *Run individually, e.g:-*
 ```
 python tools/port_scanner.py 192.168.1.1
