@@ -108,14 +108,7 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 - **Automation of common tasks** like port scanning, subdomain enumeration, and packet sniffing.  
 - **Cross-platform toolkit** usable in academic, lab, and training environments.  
 
----
-## 📦 requirements.txt
-```
-requests
-scapy
-python-nmap
-colorama
-```
+
 ---
 
 ## ✅ Installation & Usage
@@ -192,6 +185,7 @@ Windows: choco
 ```bash
 cybersec-multi-tool-launcher/
 │── tool_launcher.py          # Main launcher (CLI + GUI)
+│── requirements.txt          # Python dependencies
 │── config.json               # Configurable tool paths and targets
 │── README.md                 # Documentation
 │── tools/                    # Internal mini tools
