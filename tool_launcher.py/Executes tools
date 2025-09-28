@@ -9,6 +9,7 @@ Below is the categorized list of tools supported:
 - Nmap
 - Zenmap
 - Angry IP Scanner
+- Advanced IP Scanner
 - LanSpy
 
 =========================================
@@ -35,3 +36,14 @@ Below is the categorized list of tools supported:
 - NetworkMiner
 - Kismet
 - Ettercap
+- OWASP ZAP
+- Magnet Axiom
+
+=========================================
+5️⃣ Mini Tools
+-----------------------------------------
+- Port_Scanner
+- Ping_Sweep
+- Banner_Grabber
+- Packet_Sniffer
+- Subdomain_Finder
