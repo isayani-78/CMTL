@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""tool_launcher.py
+"""
+tool_launcher.py
 CyberSec Multi-Tool Launcher (CMTL) - full launcher (CLI + simple GUI)
 Features:
  - Reads config.json
