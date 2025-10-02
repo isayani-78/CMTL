@@ -1,21 +1,18 @@
 {
-  "default_target": "127.0.0.1",
-  "tools": {
-    "nmap": "nmap",
-    "wireshark": "wireshark",
-    "metasploit": "msfconsole",
-    "burp": "burpsuite",
-    "zap": "zap.sh",
-    "magnet_axiom": ""
-  },
-  "paths": {
-    "nmap_path": "",
-    "metasploit_path": "",
-    "burp_path": "",
-    "zap_path": "",
-    "magnet_axiom_path": ""
-  },
-  "run_as_admin_required": [
-    "scapy"
-  ]
+  "project_name": "CyberSec Multi Tool Launcher (CMTL)",
+  "default_target": "192.168.1.1",
+  "timeout_seconds": 300,
+  "internal_tools": [
+    "port_scanner",
+    "ping_sweeper",
+    "banner_grabber",
+    "packet_sniffer",
+    "subdomain_finder"
+  ],
+  "external_tools": {
+    "Nmap": ["nmap", "-F", "127.0.0.1"],
+    "Wireshark": ["wireshark"],
+    "Metasploit": ["msfconsole", "-q"],
+    "OWASP ZAP": ["zap.sh"]
+  }
 }
