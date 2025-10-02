@@ -1,9 +1,0 @@
-pyqt5
-scapy
-requests
-python-nmap
-dnspython
-colorama
-rich
-pandas
-pyinstaller
