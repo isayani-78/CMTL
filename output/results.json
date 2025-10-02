@@ -1,0 +1,10 @@
+[
+  {
+    "tool": "port_scanner",
+    "time": "2025-10-02T18:49:18.366228Z",
+    "success": false,
+    "exit_code": 1,
+    "cmd": "C:\\Users\\sayan\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\sayan\\Desktop\\CMTL_full_package\\tools\\port_scanner.py 192.168.1.1",
+    "output_preview": "\nERR:\n  File \"C:\\Users\\sayan\\Desktop\\CMTL_full_package\\tools\\port_scanner.py\", line 2\n    \"\"\"\nIndentationError: unexpected indent\n"
+  }
+]
