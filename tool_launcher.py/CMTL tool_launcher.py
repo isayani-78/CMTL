@@ -1,16 +1,9 @@
 #!/usr/bin/env python3
 """
-tool_launcher.py
-CyberSec Multi-Tool Launcher (CMTL) - full launcher (CLI + simple GUI)
-Features:
- - Reads config.json
- - Ensures output/ and output/logs/ exist (creates them)
- - Runs internal mini-tools (tools/*.py) and configured external commands (if available)
- - Captures stdout/stderr, writes per-tool logs (output/logs/<tool>.log)
- - Appends structured run records to output/results.json
- - Supports: --cli, --gui, --run-all
+tool_launcher.py - CMTL launcher (CLI + simple GUI)
+Safe output initialization included (ensures output/logs and results.json).
+This file focuses on robust startup and calling internal tools.
 """
-
 import os
 import sys
 import json
@@ -20,10 +13,9 @@ import argparse
 import threading
 from datetime import datetime
 
-# Try to import optional libraries (not fatal)
+# optional tkinter UI
 try:
     import tkinter as tk
-    from tkinter import messagebox, simpledialog, ttk
     TK_AVAILABLE = True
 except Exception:
     TK_AVAILABLE = False
@@ -35,19 +27,38 @@ LOG_DIR = os.path.join(OUTPUT_DIR, "logs")
 RESULTS_PATH = os.path.join(OUTPUT_DIR, "results.json")
 TOOLS_DIR = os.path.join(ROOT, "tools")
 
-# Ensure directories and initial files
+# -------------------------
+# Safe initialization helpers
+# -------------------------
 def ensure_output():
+    """Ensure output folders exist and results.json is a JSON list."""
     os.makedirs(LOG_DIR, exist_ok=True)
-    # Git keep files so empty dirs are tracked
-    open(os.path.join(OUTPUT_DIR, ".gitkeep"), "a").close()
-    open(os.path.join(LOG_DIR, ".gitkeep"), "a").close()
+    # create .gitkeep so empty dirs are tracked if required
+    try:
+        open(os.path.join(OUTPUT_DIR, ".gitkeep"), "a").close()
+        open(os.path.join(LOG_DIR, ".gitkeep"), "a").close()
+    except Exception:
+        pass
+    # create or sanitize results.json
     if not os.path.exists(RESULTS_PATH):
         with open(RESULTS_PATH, "w", encoding="utf-8") as f:
             json.dump([], f, indent=2)
+        return
+    # if exists, try to load and fix if corrupted or not a list
+    try:
+        with open(RESULTS_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if not isinstance(data, list):
+            raise ValueError("results.json not a list")
+    except Exception:
+        # back up corrupted file and recreate empty list
+        try:
+            shutil.copy2(RESULTS_PATH, RESULTS_PATH + ".bak")
+        except Exception:
+            pass
+        with open(RESULTS_PATH, "w", encoding="utf-8") as f:
+            json.dump([], f, indent=2)
 
-ensure_output()
-
-# Utilities
 def now_ts():
     return datetime.utcnow().isoformat() + "Z"
 
@@ -56,48 +67,31 @@ def write_log(tool_name, text):
     path = os.path.join(LOG_DIR, f"{safe}.log")
     try:
         with open(path, "a", encoding="utf-8", errors="ignore") as f:
-            f.write(f"--- {now_ts()} ---\n{text}\n\n")
-    except Exception as e:
-        print(f"[WARN] Could not write log for {tool_name}: {e}")
+            f.write(f"--- {now_ts()} ---\n")
+            f.write(text if isinstance(text, str) else str(text))
+            f.write("\n\n")
+    except Exception:
+        pass
 
 def append_result(entry):
     try:
         with open(RESULTS_PATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            if not isinstance(data, list):
-                data = []
+            arr = json.load(f)
+            if not isinstance(arr, list):
+                arr = []
     except Exception:
-        data = []
-    data.append(entry)
+        arr = []
+    arr.append(entry)
     try:
         with open(RESULTS_PATH, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=2)
-    except Exception as e:
-        print(f"[WARN] Could not append result: {e}")
-
-def is_executable_available(cmd):
-    """
-    Accepts a string or list; checks presence on PATH or absolute path existence.
-    """
-    if not cmd:
-        return False
-    if isinstance(cmd, (list, tuple)):
-        exe = cmd[0]
-    else:
-        exe = cmd
-    if not exe:
-        return False
-    if os.path.isabs(exe):
-        return os.path.exists(exe) and os.access(exe, os.X_OK)
-    return shutil.which(exe) is not None
+            json.dump(arr, f, indent=2)
+    except Exception:
+        pass
 
 def run_subprocess_capture(cmd_list, timeout=None):
-    """
-    Runs command (list) and returns (success_bool, stdout+stderr_str, returncode)
-    """
     try:
         proc = subprocess.run(cmd_list, capture_output=True, text=True, timeout=timeout)
-        out = (proc.stdout or "") + ("\nERR:\n" + proc.stderr if proc.stderr else "")
+        out = (proc.stdout or "") + (("\nERR:\n" + proc.stderr) if proc.stderr else "")
         ok = proc.returncode == 0
         return ok, out, proc.returncode
     except FileNotFoundError:
@@ -108,142 +102,70 @@ def run_subprocess_capture(cmd_list, timeout=None):
         return False, str(e), None
 
 # -------------------------
-# Internal mini-tools runner (calls python scripts in tools/)
+# Internal tool runner (python scripts under tools/)
 # -------------------------
-def run_internal_tool_script(tool_script_name, args=None, timeout=120):
-    """
-    Executes: python tools/<tool_script_name>.py [args...]
-    tool_script_name without .py (e.g., "port_scanner")
-    """
-    script = os.path.join(TOOLS_DIR, f"{tool_script_name}.py")
+def run_internal_tool_script(name, args=None, timeout=120):
+    script = os.path.join(TOOLS_DIR, f"{name}.py")
     if not os.path.exists(script):
         msg = f"Script not found: {script}"
-        write_log(tool_script_name, msg)
-        append_result({
-            "tool": tool_script_name,
-            "time": now_ts(),
-            "success": False,
-            "note": "script_not_found",
-            "output_preview": msg
-        })
+        write_log(name, msg)
+        append_result({"tool": name, "time": now_ts(), "success": False, "note": "script_not_found", "output_preview": msg})
         return False, msg, None
-
     cmd = [sys.executable, script] + (args if args else [])
     ok, out, rc = run_subprocess_capture(cmd, timeout=timeout)
-    write_log(tool_script_name, out)
-    append_result({
-        "tool": tool_script_name,
-        "time": now_ts(),
-        "success": ok,
-        "exit_code": rc,
-        "cmd": " ".join(cmd),
-        "output_preview": (out[:1000] if out else "")
-    })
+    write_log(name, out)
+    append_result({"tool": name, "time": now_ts(), "success": ok, "exit_code": rc, "cmd": " ".join(cmd), "output_preview": (out[:1000] if out else "")})
     return ok, out, rc
 
 # -------------------------
-# External tool runner (executables installed on system) - best-effort
+# Orchestrator: run all internal tools then external (if any)
 # -------------------------
-def run_external_tool(tool_name, cmd_def, timeout=300):
-    """
-    cmd_def may be:
-      - list: ["nmap", "-A"]
-      - string: "nmap -A"
-      - absolute path to exe
-    """
-    if isinstance(cmd_def, str):
-        cmd_list = cmd_def.split()
-    elif isinstance(cmd_def, (list, tuple)):
-        cmd_list = list(cmd_def)
-    else:
-        append_result({
-            "tool": tool_name,
-            "time": now_ts(),
-            "success": False,
-            "note": "invalid_cmd",
-            "output_preview": ""
-        })
-        return False, "Invalid command specified", None
-
-    # check executable available
-    if not is_executable_available(cmd_list):
-        msg = f"Executable not found: {cmd_list[0]}"
-        write_log(tool_name, msg)
-        append_result({
-            "tool": tool_name,
-            "time": now_ts(),
-            "success": False,
-            "note": "exe_not_found",
-            "cmd": " ".join(cmd_list),
-            "output_preview": msg
-        })
-        return False, msg, None
-
-    ok, out, rc = run_subprocess_capture(cmd_list, timeout=timeout)
-    write_log(tool_name, out)
-    append_result({
-        "tool": tool_name,
-        "time": now_ts(),
-        "success": ok,
-        "exit_code": rc,
-        "cmd": " ".join(cmd_list),
-        "output_preview": (out[:1000] if out else "")
-    })
-    return ok, out, rc
-
-# -------------------------
-# Orchestrator: run all (internal + external)
-# -------------------------
-def run_all_sequential(config, target_override=None):
-    """
-    Runs all configured tools sequentially:
-     - first internal mini-tools (config['internal_tools'])
-     - then external tools (config['external_tools'] mapping)
-    Returns a summary list.
-    """
+def run_all(cfg, target_override=None):
     summary = []
-    # 1) internal tools
-    internal = config.get("internal_tools", [])
+    internal = cfg.get("internal_tools", [])
+    target = target_override or cfg.get("default_target")
     for t in internal:
-        # some internal tools accept target; we pass default target from config or override
-        target = target_override or config.get("default_target")
         args = []
         if t in ("port_scanner", "banner_grabber", "subdomain_finder"):
-            # pass target as first arg
             if target:
                 args = [str(target)]
-        # ping_sweeper wants base like 192.168.1.
         if t == "ping_sweeper" and target:
             base = ".".join(str(target).split(".")[:3]) + "."
             args = [base, "1", "50"]
-        ok, out, rc = run_internal_tool_script(t, args=args, timeout=config.get("timeout_seconds", 120))
+        ok, out, rc = run_internal_tool_script(t, args=args, timeout=cfg.get("timeout_seconds", 120))
         summary.append({"tool": t, "ok": ok, "exit_code": rc})
-    # 2) external tools
-    external = config.get("external_tools", {})
-    for friendly_name, cmd_def in external.items():
-        ok, out, rc = run_external_tool(friendly_name, cmd_def, timeout=config.get("timeout_seconds", 300))
-        summary.append({"tool": friendly_name, "ok": ok, "exit_code": rc})
-    # record run_all summary
+    # handle external tools if present (best-effort)
+    for friendly, cmd_def in cfg.get("external_tools", {}).items():
+        if isinstance(cmd_def, str):
+            cmd_list = cmd_def.split()
+        elif isinstance(cmd_def, (list, tuple)):
+            cmd_list = list(cmd_def)
+        else:
+            write_log(friendly, "Invalid external tool definition")
+            append_result({"tool": friendly, "time": now_ts(), "success": False, "note": "invalid_definition"})
+            summary.append({"tool": friendly, "ok": False, "exit_code": None})
+            continue
+        # if command contains "{target}", replace placeholder
+        cmd_list = [str(x).replace("{target}", str(target)) for x in cmd_list]
+        ok, out, rc = run_subprocess_capture(cmd_list, timeout=cfg.get("timeout_seconds", 300))
+        write_log(friendly, out if out else f"Executed: {' '.join(cmd_list)}")
+        append_result({"tool": friendly, "time": now_ts(), "success": ok, "exit_code": rc, "cmd": " ".join(cmd_list), "output_preview": (out[:1000] if out else "")})
+        summary.append({"tool": friendly, "ok": ok, "exit_code": rc})
     append_result({"tool": "run_all", "time": now_ts(), "summary": summary})
     return summary
 
 # -------------------------
-# Load config with safe defaults
+# Config loader
 # -------------------------
 def load_config(path=CONFIG_PATH):
     if not os.path.exists(path):
-        # create a default config if missing
+        # minimal default
         default = {
-            "project_name": "CyberSec Multi Tool Launcher (CMTL)",
+            "project_name": "CMTL",
             "default_target": "192.168.1.1",
             "timeout_seconds": 300,
             "internal_tools": ["port_scanner", "ping_sweeper", "banner_grabber", "packet_sniffer", "subdomain_finder"],
-            "external_tools": {
-                # friendly name : command (list or string)
-                "Nmap": ["nmap", "-F", "127.0.0.1"],
-                "Wireshark": ["wireshark"],
-                "Metasploit": ["msfconsole", "-q"]
-            }
+            "external_tools": {}
         }
         try:
             with open(path, "w", encoding="utf-8") as f:
@@ -253,95 +175,66 @@ def load_config(path=CONFIG_PATH):
         return default
     try:
         with open(path, "r", encoding="utf-8") as f:
-            cfg = json.load(f)
-            return cfg
+            return json.load(f)
     except Exception:
-        print("[WARN] Invalid config.json, using safe defaults.")
-        return {
-            "project_name": "CyberSec Multi Tool Launcher (CMTL)",
-            "default_target": "192.168.1.1",
-            "timeout_seconds": 300,
-            "internal_tools": ["port_scanner", "ping_sweeper", "banner_grabber", "packet_sniffer", "subdomain_finder"],
-            "external_tools": {}
-        }
+        return {"project_name": "CMTL", "default_target": "192.168.1.1", "timeout_seconds": 300, "internal_tools": [], "external_tools": {}}
 
 # -------------------------
-# CLI menu
+# CLI menu (simple)
 # -------------------------
 def cli_menu(cfg):
     while True:
-        print("\n=== CMTL CLI ===")
+        print("\nCMTL CLI - Options:")
         print("1) Run single internal tool")
-        print("2) Run single external tool (if present)")
-        print("3) Run all (internal + external) sequentially")
-        print("4) Show available tools")
+        print("2) Run all (internal + external)")
+        print("3) Show tools")
         print("0) Exit")
-        choice = input("Select: ").strip()
+        choice = input("Choose: ").strip()
         if choice == "0":
             break
-        elif choice == "1":
+        if choice == "1":
             print("Internal tools:", cfg.get("internal_tools", []))
             t = input("Tool name: ").strip()
             if t:
                 run_internal_tool_script(t, args=[cfg.get("default_target")])
         elif choice == "2":
-            print("External tools:", list(cfg.get("external_tools", {}).keys()))
-            t = input("External tool friendly name: ").strip()
-            if t and t in cfg.get("external_tools", {}):
-                run_external_tool(t, cfg["external_tools"][t])
-        elif choice == "3":
             target = input(f"Target (default {cfg.get('default_target')}): ").strip() or cfg.get("default_target")
-            print("Running all -- this may take time. Check output/logs/ for logs.")
-            summary = run_all_sequential(cfg, target_override=target)
-            print("Summary:", summary)
-        elif choice == "4":
-            print("Internal tools:", cfg.get("internal_tools", []))
-            print("External tools:", list(cfg.get("external_tools", {}).keys()))
+            print("Running all...")
+            print(run_all(cfg, target_override=target))
+        elif choice == "3":
+            print("Internal:", cfg.get("internal_tools", []))
+            print("External:", list(cfg.get("external_tools", {}).keys()))
         else:
             print("Unknown choice.")
 
 # -------------------------
-# Simple Tkinter GUI (keeps it minimal)
+# Minimal GUI launcher (if tkinter available)
 # -------------------------
 def start_gui(cfg):
     if not TK_AVAILABLE:
-        print("Tkinter not available. Use --cli or --run-all.")
+        print("Tkinter not installed; use --cli or --run-all")
         return
     root = tk.Tk()
     root.title(cfg.get("project_name", "CMTL"))
-    root.geometry("800x520")
-    tk.Label(root, text=cfg.get("project_name", "CMTL"), font=("Arial", 16, "bold")).pack(pady=8)
+    root.geometry("800x480")
+    tk.Label(root, text=cfg.get("project_name", "CMTL"), font=("Helvetica", 16, "bold")).pack(pady=8)
     frame = tk.Frame(root)
-    frame.pack(padx=10, pady=10, fill="both", expand=True)
-    # Internal tools buttons
-    lbl_int = tk.Label(frame, text="Internal Mini-Tools", font=("Arial", 12, "bold"))
-    lbl_int.grid(row=0, column=0, sticky="w", pady=(0,6))
+    frame.pack(fill="both", expand=True, padx=10, pady=10)
+
+    tk.Label(frame, text="Internal Tools:", font=("Arial", 12, "bold")).grid(row=0, column=0, sticky="w")
     r = 1
     for t in cfg.get("internal_tools", []):
-        def make_cmd(tool_name):
-            return lambda: threading.Thread(target=run_internal_tool_script, args=(tool_name, [cfg.get("default_target")]), daemon=True).start()
-        b = tk.Button(frame, text=t, width=28, command=make_cmd(t))
-        b.grid(row=r, column=0, padx=6, pady=4, sticky="w")
-        r += 1
-    # External tools
-    lbl_ext = tk.Label(frame, text="External Tools (launch if installed)", font=("Arial", 12, "bold"))
-    lbl_ext.grid(row=0, column=1, sticky="w", padx=(20,0))
-    r = 1
-    for friendly, cmd in cfg.get("external_tools", {}).items():
-        def make_cmd2(fn=friendly, cd=cmd):
-            return lambda: threading.Thread(target=run_external_tool, args=(fn, cd), daemon=True).start()
-        b = tk.Button(frame, text=friendly, width=28, command=make_cmd2())
-        b.grid(row=r, column=1, padx=6, pady=4, sticky="w")
+        def mk(tool=t):
+            return lambda: threading.Thread(target=run_internal_tool_script, args=(tool, [cfg.get("default_target")]), daemon=True).start()
+        b = tk.Button(frame, text=tool, width=30, command=mk())
+        b.grid(row=r, column=0, pady=4, sticky="w")
         r += 1
 
-    # Bottom controls
-    bottom = tk.Frame(root)
-    bottom.pack(fill="x", padx=10, pady=8)
-    tk.Button(bottom, text="Run All (sequential)", command=lambda: threading.Thread(target=run_all_sequential, args=(cfg,), daemon=True).start()).pack(side="left")
-    tk.Button(bottom, text="Open output folder", command=lambda: open_output_folder()).pack(side="right")
+    tk.Button(root, text="Run All (sequential)", command=lambda: threading.Thread(target=run_all, args=(cfg,), daemon=True).start()).pack(pady=6)
+    tk.Button(root, text="Open output folder", command=lambda: open_output()).pack(pady=2)
     root.mainloop()
 
-def open_output_folder():
+def open_output():
     try:
         if os.name == "nt":
             os.startfile(OUTPUT_DIR)
@@ -350,41 +243,34 @@ def open_output_folder():
         else:
             subprocess.Popen(["xdg-open", OUTPUT_DIR])
     except Exception as e:
-        print(f"[WARN] Could not open output folder: {e}")
+        print("Failed to open output folder:", e)
 
 # -------------------------
-# Entry point
+# Main
 # -------------------------
 def main():
-    parser = argparse.ArgumentParser(description="CMTL - CyberSec Multi-Tool Launcher")
-    parser.add_argument("--cli", action="store_true", help="Start in CLI mode")
-    parser.add_argument("--gui", action="store_true", help="Start GUI (Tkinter)")
-    parser.add_argument("--run-all", action="store_true", help="Run all internal+external tools sequentially (one-line command)")
-    parser.add_argument("--target", help="Override default target for internal tools")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--cli", action="store_true")
+    parser.add_argument("--gui", action="store_true")
+    parser.add_argument("--run-all", action="store_true")
+    parser.add_argument("--target", help="override default target")
     args = parser.parse_args()
 
+    ensure_output()
     cfg = load_config()
 
-    # ensure output folder
-    ensure_output()
-
     if args.run_all:
-        target = args.target or cfg.get("default_target")
-        print(f"[INFO] Running all tools sequentially against target: {target}")
-        summary = run_all_sequential(cfg, target_override=target)
-        print("Run finished. Summary:")
+        summary = run_all(cfg, target_override=args.target)
         print(json.dumps(summary, indent=2))
         return
-
     if args.gui:
         start_gui(cfg)
         return
-
     if args.cli:
         cli_menu(cfg)
         return
 
-    # default: try GUI if possible, else CLI
+    # default: GUI if available else CLI
     if TK_AVAILABLE:
         start_gui(cfg)
     else:
