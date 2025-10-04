@@ -94,7 +94,7 @@ This project solves that by providing a **single GUI launcher** to run multiple 
 
 
 ---
-## External Tools Integrated:
+## External Tools Integrated:-
 - **Network Scanners:** Nmap, Zenmap, Angry IP Scanner, Advanced IP Scanner, LanSpy  
 - **Vulnerability Assessment:** OpenVAS, Nessus, QualysGuard, Acunetix  
 - **Penetration Testing:** Metasploit, Burp Suite, Sparta, Faraday  
