@@ -10,7 +10,7 @@
 ![Stage](https://img.shields.io/badge/Project%20Stage-Research%20%26%20Development-blue?style=for-the-badge&logo=progress)
 
 ## Mentors:-
-![Mentor](https://img.shields.io/badge/Mentor-Mrs.Sukriti%20Santra-red?style=for-the-badge&logo=github)
+![Mentor](https://img.shields.io/badge/Mentor-Mrs.Sukriti%20Santra-red?style=for-the-badge&logo=github) 
 
 ![ExternalMentor](https://img.shields.io/badge/External%20Mentor-Mr.Saumitra%20Biswas-purple?style=for-the-badge&logo=github)
 
