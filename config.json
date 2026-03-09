@@ -5,7 +5,7 @@
   "internal_tools": [
     "port_scanner",
     "ping_sweeper",
-    "banner_grabber",
+    "banner_grabber", 
     "packet_sniffer",
     "subdomain_finder"
   ],
