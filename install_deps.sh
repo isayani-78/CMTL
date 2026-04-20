@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -e
-echo "Updating and installing system dependencies..."
+echo "Updating and installing system dependencies..." 
 sudo apt update 
 sudo apt install -y nmap python3-pip python3-venv libpcap-dev python3-tk 
 echo "Installing Npcap/WinPcap is required on Windows. Install Wireshark if needed." 
