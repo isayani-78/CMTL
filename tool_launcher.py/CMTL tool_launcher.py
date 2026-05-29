@@ -4,7 +4,7 @@ tool_launcher.py - CMTL launcher (CLI + simple GUI)
 Safe output initialization included (ensures output/logs and results.json).       
 This file focuses on robust startup and calling internal tools. 
 """    
-import os     
+import os 
 import sys  
 import json  
 import subprocess
